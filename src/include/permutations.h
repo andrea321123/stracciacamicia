@@ -1,8 +1,6 @@
-
 #ifndef PERMUTATIONS_H
 #define PERMUTATIONS_H
 
-#include <stdint.h>
 #include <stddef.h>
 
 // Convert [perm] into the next permutation in lexicographic order of [perm].

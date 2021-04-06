@@ -1,7 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "include/common.h"
+#include "common.h"
 
 #include <stddef.h>
 
@@ -13,14 +13,14 @@ struct dequeue_result {
 
 // Queue implemented as circular buffer of size [DECK_SIZE]
 struct queue {
-    static char buffer[DECK_SIZE];
-    static size_t front;
-    static size_t back;
-    static int empty;
+    char buffer[DECK_SIZE];
+    size_t front;
+    size_t back;
+    int empty;
 };
 
 // Initialize  the queue
-void init_queue(queue *q);
+void init_queue(struct queue *q);
 
 // Insert [c] in the queue.
 // Return 0 if the queue is full (because it is implemented as a ring buffer),

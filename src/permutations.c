@@ -28,9 +28,11 @@ int next_permutation(char *perm, size_t perm_size) {
 
     while (1) {
         if (k_char  < perm[i]) {
-            l = i--;
+            l = i;
             break;
         }
+
+        i--;
     }
     
     // swap perm[k] and perm[l]

@@ -43,3 +43,16 @@ struct dequeue_result dequeue(struct queue *q) {
         };
     return ret;
 }
+
+void print_queue(struct queue *q) {
+    size_t i = q->front;
+
+    printf("[ ");
+
+    while (i != q->back) {
+        printf("%c ", q->buffer[i]);
+        i = (i +1) % DECK_SIZE;
+    }
+
+    printf("]");
+}

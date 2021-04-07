@@ -31,4 +31,7 @@ int enqueue(struct queue *q, char c);
 // Return 0 if the queue is empty, 1 otherwise
 struct dequeue_result dequeue(struct queue *q);
 
+// Print the content of a queue
+void print_queue(struct queue *q);
+
 #endif

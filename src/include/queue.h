@@ -31,6 +31,9 @@ int enqueue(struct queue *q, char c);
 // Return 0 if the queue is empty, 1 otherwise
 struct dequeue_result dequeue(struct queue *q);
 
+// Transer the content of [q2] into [q1]
+void transfer_queue(struct queue *q1, struct queue *q2);
+
 // Print the content of a queue
 void print_queue(struct queue *q);
 

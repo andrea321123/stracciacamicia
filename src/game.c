@@ -76,7 +76,7 @@ enum game_result play_game(char *cards) {
     int turn = 0;
     
     while (1) {
-        switch (play_turn(turn);) {
+        switch (play_turn(turn)) {
             case TURN_PLAYER_0:
                 transfer_queue(&players[0], &game_queue);
                 turn = 0;

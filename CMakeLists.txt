@@ -7,5 +7,6 @@ add_executable(${PROJECT_NAME}
     src/main.c
     src/permutations.c
     src/queue.c
+    src/game.c
 )
 

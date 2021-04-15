@@ -30,6 +30,10 @@ int main(int argc, char *argv[]) {
     long steps = 1000000000;
     int debug = 0;
     int start_config_inserted = 0;
+
+    if (argc == 1) {
+        show_help_exit();
+    }
     
     for(int i = 1; i < argc; i++) {
         if (strcmp("-h", argv[i]) == 0 || strcmp("--help", argv[i]) == 0) {

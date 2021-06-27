@@ -107,6 +107,7 @@ int main(int argc, char *argv[]) {
 
     long game_counter = 0;
     long debug_counter = 0;
+    int next;
     do {
         enum game_result result = play_game(s);
 
@@ -116,7 +117,12 @@ int main(int argc, char *argv[]) {
             debug_counter = 0;
         }
     }
-    while (next_permutation(s, DECK_SIZE) && game_counter++ < steps);
+    while ((next = next_permutation(s, DECK_SIZE)) && game_counter++ < steps);
+
+    // at the end we print the next configuration to be played
+    if (next) {
+        printf("%s", s);
+    }
 
     return 0;
 }

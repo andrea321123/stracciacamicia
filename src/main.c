@@ -7,14 +7,18 @@
 #include <stdlib.h>
 
 void show_help_exit(void) {
-    puts("Usage: stracciacamica [COFIGURATION] [OPTION] ... ");
+    puts("Usage: stracciacamica [START_GAME] [OPTION] ... ");
     puts("straccicamica search for infinite games of the \"stracciacamica\" board game");
+    puts("If [START_GAME] is not given, read from stdin");
     puts("\nOptions:");
-    puts("  -n NUM      set the number of games to try (default 1000000000)");
-    puts("  -d COUNT    every COUNT games print debug information (default no debug)");
+    puts("  -n NUM            set the number of games to try (default 1000000)");
+    puts("  -d COUNT          every COUNT games print debug information (default no debug)");
 
     puts("\n  -h, --help        display this help and exit");
     puts("  -v, --version     display version and exit");
+
+    puts("\nExample:");
+    puts("stracciacamicia -d 100 -c 1000 1001200230030000000010012002300300000000");
     exit(0);
 }
 
@@ -24,17 +28,27 @@ void show_version_exit(void) {
     exit(0);
 }
 
+void validate_input(const char *s) {
+    if (strlen(s) != DECK_SIZE) {
+        printf("Start configuration size must be of %d characters\n", DECK_SIZE);
+        exit(1);
+    }
+    for (size_t i = 0; i < DECK_SIZE; i++) {
+        char c = s[i];
+        if (c != '0' && c != '1' && c != '2' && c != '3') {
+            puts("Start configuration can contain only '0', '1', '2', and '3' characters");
+            exit(1);
+        }
+    }
+}
+
 int main(int argc, char *argv[]) {
-    char *s = NULL;
+    char *s = malloc(DECK_SIZE +1);
     long count = 0;
-    long steps = 1000000000;
+    long steps = 1000000;
     int debug = 0;
     int start_config_inserted = 0;
 
-    if (argc == 1) {
-        show_help_exit();
-    }
-    
     for(int i = 1; i < argc; i++) {
         if (strcmp("-h", argv[i]) == 0 || strcmp("--help", argv[i]) == 0) {
             show_help_exit();
@@ -76,29 +90,20 @@ int main(int argc, char *argv[]) {
             }
         }
         else {
-            s = malloc(DECK_SIZE +1);
             strcpy(s, argv[i]);
             start_config_inserted = 1;
-
-            // check validity of input start configuration
-            if (strlen(s) != DECK_SIZE) {
-                printf("Start configuration size must be of %d characters\n", DECK_SIZE);
-                exit(1);
-            }
-            for (size_t i = 0; i < DECK_SIZE; i++) {
-                char c = s[i];
-                if (c != '0' && c != '1' && c != '2' && c != '3') {
-                    puts("Start configuration can contain only '0', '1', '2', and '3' characters");
-                    exit(1);
-                }
-            }
         }
+    }
 
-        if (!start_config_inserted) {
-            puts("You must insert a start configuration");
+    if (!start_config_inserted) {
+        // read from stdin
+        if (fgets(s, DECK_SIZE +1, stdin) == NULL) {
+            puts("Error while reading input");
             exit(1);
         }
     }
+
+    validate_input(s);
 
     long game_counter = 0;
     long debug_counter = 0;

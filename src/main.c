@@ -113,15 +113,31 @@ int main(int argc, char *argv[]) {
 
         debug_counter++;
         if (debug && debug_counter == count) {
-            printf("%s: winner: player %d\n", s, result);
+            if (result == INFINITE_GAME) {
+                printf("%s might be infinite\n", s); 
+            }
+            else {   
+                printf("%s: winner: player %d\n", s, result);
+            }
             debug_counter = 0;
         }
+
+        if (result == INFINITE_GAME) {
+            // we append to the infinite games file this configuration
+            FILE *file = fopen("infinite_games.txt", "a");
+            if (file == NULL) {
+                puts("Error while writing into the file");
+                exit(1);
+            }
+            fprintf(file, "%s\n", s);
+            fclose(file);
+        }
     }
-    while ((next = next_permutation(s, DECK_SIZE)) && game_counter++ < steps);
+    while ((next = next_permutation(s, DECK_SIZE)) && ++game_counter < steps);
 
     // at the end we print the next configuration to be played
     if (next) {
-        printf("%s", s);
+        printf("%s\n", s);
     }
 
     return 0;

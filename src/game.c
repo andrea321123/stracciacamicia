@@ -1,5 +1,6 @@
 #include "include/game.h"
 #include "include/queue.h"
+#include "include/common.h"
 
 enum turn_result {
     TURN_PLAYER_0 = 0,              // win the turn but not the game
@@ -46,7 +47,6 @@ enum turn_result defend(int turn, int card) {
 }
 
 // Play a single turn
-// TODO: check for infinite game
 enum turn_result play_turn(int turn) {
     int opponent_turn = opposite_turn(turn);
 
@@ -74,8 +74,9 @@ enum game_result play_game(char *cards) {
     }
 
     int turn = 0;
-    
-    while (1) {
+    size_t played_turns = 0;
+
+    while (played_turns++ < MAX_TURNS) {
         switch (play_turn(turn)) {
             case TURN_PLAYER_0:
                 transfer_queue(&players[0], &game_queue);
@@ -85,8 +86,6 @@ enum game_result play_game(char *cards) {
                 transfer_queue(&players[1], &game_queue);
                 turn = 1;
                 break;
-            case TURN_INFINITE_GAME:
-                return INFINITE_GAME;
             case TURN_WIN_PLAYER_0:
                 return WIN_PLAYER_0;
             case TURN_WIN_PLAYER_1:
@@ -95,4 +94,8 @@ enum game_result play_game(char *cards) {
                 break;
         }   
     }
+
+    // if we reach this point, the game is likely to be infinite
+    return INFINITE_GAME;
+
 }
